@@ -49,7 +49,7 @@
 		}
 		return x + mult(x, y - 1);
 	}
-Look at gist for solution
+ [Solution](https://github.gatech.edu/gist/goutam3/ac338bb5f9a790dbced3)
 
 ###5) Pack and Unpack
 	short pack(char b1, char b2) 
