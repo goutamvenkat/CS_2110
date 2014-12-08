@@ -33,11 +33,11 @@
 	swap(&a, &b); // for calling
 	
 ###b) Swap two integer pointers
-	void swap(int *a, int *b) 
+	void swap(int **a, int **b) 
 	{
-		int *temp = a;
-		a = b;
-		b = temp;
+		int *temp = *a;
+		*a = *b;
+		*b = temp;
 	}
 ###3) Pointer Magic
 	a = 77, b = 44, *p1 = 44, *p2 = 77, *p3 = 77
