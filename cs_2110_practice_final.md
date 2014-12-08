@@ -39,7 +39,7 @@
 		a = b;
 		b = temp;
 	}
-###3)
+###3) Pointer Magic
 	a = 77, b = 44, *p1 = 44, *p2 = 77, *p3 = 77
 
 ###4) Recursion
@@ -49,7 +49,7 @@
 		}
 		return x + mult(x, y - 1);
 	}
- [Solution](https://github.gatech.edu/gist/goutam3/ac338bb5f9a790dbced3)
+### [Assembly Solution -> RECURSION](https://github.gatech.edu/gist/goutam3/ac338bb5f9a790dbced3)
 
 ###5) Pack and Unpack
 	short pack(char b1, char b2) 
@@ -63,6 +63,13 @@
 		*b2 = (char) a;
 	}
 ###6) Malloc
+####__Buddy System__
+The buddy system is a recursive process of creating blocks that are of defined size based on the requested size. For instance if ```malloc(10*sizeof(int))``` is called then a block of 64 bytes is given to the user. Blocks are assigned in powers of 2 starting at 16 bytes. 
+
+*__Advantage__: It is simple to find blocks. O(n) to find freelist index and O(log n) for splitting process.*
+
+*__Disadvantage__: Wasted space.*
+
 
 ###7) Realloc 
 	void *realloc(void *ptr, size_t newsize) 
@@ -119,3 +126,9 @@
 ###10) Function Pointers
 	typedef void (*functionPtr)(int, int, u16);
 	typedef void (*fp)(int, int, int, int, u16);
+	
+<script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+<link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/github.min.css">
+<script>
+  hljs.initHighlightingOnLoad();
+</script>
