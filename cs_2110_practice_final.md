@@ -30,7 +30,7 @@
 		*a = *b;
 		*b = temp;
 	}
-	swap(&a, &b); // for calling
+	swap(&a, &b); // calling swap
 	
 ###b) Swap two integer pointers
 	void swap(int **a, int **b) 
@@ -39,6 +39,10 @@
 		*a = *b;
 		*b = temp;
 	}
+	int a, b;
+	int *p1 = &a;
+	int *p2 = &b;
+	swap(&p1, &p2); // calling swap
 ###3) Pointer Magic
 	a = 77, b = 44, *p1 = 44, *p2 = 77, *p3 = 77
 
@@ -64,11 +68,28 @@
 	}
 ###6) Malloc
 ####__Buddy System__
-The buddy system is a recursive process of creating blocks that are of defined size based on the requested size. For instance if ```malloc(10*sizeof(int))``` is called then a block of 64 bytes is given to the user. Blocks are assigned in powers of 2 starting at 16 bytes. 
-
-*__Advantage__: It is simple to find blocks. O(n) to find freelist index and O(log n) for splitting process.*
-
-*__Disadvantage__: Wasted space.*
+Allocates blocks of certain sizes, and has many free lists, one for each
+  permitted size. Rounds request up to to nearest permitted size and returns
+  first block from that size's free list. If free list for that size is empty
+  the allocator splits a block from a larger size and returns one of those.
+  When blocks are freed, there is an attempt to merge adjacent blocks into one
+  larger permitted size.
+  
+  Pros:
+  
+  - O(1) allocation and deallocation time
+  	
+  - Faster and simpler compared to general dynamic memory allocation.
+  - Avoids external fragmentation by keeping free physical pages contiguous
+  - Buddy system is fast because it's cheap to merge free memeory because the
+  buddy of any free block can be calculated quickly from its address.
+  
+  Cons:
+  
+  - Can potentially be a lot of wasted space since memory can only be allocated
+  in sets of certain sizes (AKA internal fragmentation).
+  - Highly fragmented
+  - Non-adjacement memory won't be merged
 
 
 ###7) Realloc 
