@@ -18,6 +18,8 @@
 		static int persists = 0;
 		const int not_change = 1;
 		
+		printf("Address of code in memory: %p\n", &main);
+		printf("Address of static area: %p\n", &all_files);
 		printf("%p %p\n", &argc, &argv); 
 		printf("Location of Heap %p\n", ptr);
 		printf("Location of Stack %p\n", &argc);
@@ -64,7 +66,7 @@
 	void unpack(short a, char *b1, char *b2) 
 	{
 		*b1 = (char)(a >> 8);
-		*b2 = (char) a;
+		*b2 = (char) (a & 0x00FF);
 	}
 ###6) Malloc
 ####__Buddy System__
@@ -92,19 +94,23 @@ Allocates blocks of certain sizes, and has many free lists, one for each
   - Non-adjacement memory won't be merged
 
 
-###7) Realloc 
+###7) Realloc
+	size_t min(size_t a, size_t b) 
+	{
+		return (a < b ? a : b);
+	} 
 	void *realloc(void *ptr, size_t newsize) 
 	{
 		if (ptr == NULL) {
-			return NULL;
+			return malloc(newsize);
 		}
 		else if (!newsize) {
 			free(ptr);
-			return malloc(0);
+			return NULL;
 		}
 		void *newPtr = malloc(newsize);
 		size_t old_space = getAlloc(ptr);
-		memcpy(newPtr, ptr, old_space);
+		memmove(newPtr, ptr, min(old_space, newsize));
 		free(ptr);
 		return newPtr;
 	}
@@ -112,14 +118,17 @@ Allocates blocks of certain sizes, and has many free lists, one for each
 	typedef void (*functionPtr)(void*);
 	void empty_list(LIST *list, functionPtr free_func)
 	{
+		if (list->head == NULL) return;
 		NODE *cur = list->head;
 		NODE *next = cur->next;
-		for (int i = 0; i < list->size; i++) {
+		while (next != NULL) {
 			free_func(cur->data);
 			free(cur);
 			cur = next;
-			if (i < list->size - 1) next = cur->next;
+			next = cur->next;
 		}
+		free_func(cur->data);
+		free(cur);
 		list->head = NULL;
 		list->tail = NULL;
 	}
@@ -129,18 +138,16 @@ Allocates blocks of certain sizes, and has many free lists, one for each
 	typedef unsigned short u16;
 	void fillScreen(u16 color) 
 	{
-		for (int i = 0; i < HEIGHT; i++) {
-			DMA[3].src = &color;
-			DMA[3].dst = videoBuffer + (i*WIDTH);			
-			DMA[3].cnt = WIDTH | DMA_ON | DMA_SOURCE_FIXED;
-		}
+		DMA[3].src = &color;
+		DMA[3].dst = videoBuffer;			
+		DMA[3].cnt = WIDTH*HEIGHT | DMA_ON | DMA_SOURCE_FIXED;
 	}
 	
 	void fillScreenWithImage(int row, int col, const u16* image) 
 	{
-		for (int i = 0; i < IMAGE_HEIGHT; i++) {
-			DMA[3].src = &image[(row + i)*IMAGE_WIDTH + col];
-			DMA[3].dst = videoBuffer + (row + i)*WIDTH + col;			
+		for (int r = 0; r < IMAGE_HEIGHT; r++) {
+			DMA[3].src = &image[r*IMAGE_WIDTH];
+			DMA[3].dst = videoBuffer + (row + r)*WIDTH + col;			
 			DMA[3].cnt = IMAGE_WIDTH | DMA_ON ;
 		}
 	}
