@@ -3,7 +3,7 @@
 
 	#include "stdlib.h"
 	#include "stdio.h"
-	extern int all_files;
+	int all_files;
 	static int this_file;
 	const int read_only = 0;
 	volatile int might_change;
