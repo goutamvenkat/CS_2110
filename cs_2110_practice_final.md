@@ -80,7 +80,6 @@ Allocates blocks of certain sizes, and has many free lists, one for each
   __Pros__:
   
   - O(1) allocation and deallocation time
-  	
   - Faster and simpler compared to general dynamic memory allocation.
   - Avoids external fragmentation by keeping free physical pages contiguous
   - Buddy system is fast because it's cheap to merge free memeory because the
