@@ -77,7 +77,7 @@ Allocates blocks of certain sizes, and has many free lists, one for each
   When blocks are freed, there is an attempt to merge adjacent blocks into one
   larger permitted size.
   
-  Pros:
+  __Pros__:
   
   - O(1) allocation and deallocation time
   	
@@ -86,7 +86,7 @@ Allocates blocks of certain sizes, and has many free lists, one for each
   - Buddy system is fast because it's cheap to merge free memeory because the
   buddy of any free block can be calculated quickly from its address.
   
-  Cons:
+  __Cons__:
   
   - Can potentially be a lot of wasted space since memory can only be allocated
   in sets of certain sizes (AKA internal fragmentation).
