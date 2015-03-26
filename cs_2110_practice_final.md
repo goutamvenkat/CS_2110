@@ -90,7 +90,7 @@ Allocates blocks of certain sizes, and has many free lists, one for each
   - Can potentially be a lot of wasted space since memory can only be allocated
   in sets of certain sizes (AKA internal fragmentation).
   - Highly fragmented
-  - Non-adjacement memory won't be merged
+  - Non-adjacent memory won't be merged
 
 
 ###7) Realloc
